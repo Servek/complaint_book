@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ComplaintBook.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ComplaintBook.Controllers
 {
@@ -15,6 +16,7 @@ namespace ComplaintBook.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
