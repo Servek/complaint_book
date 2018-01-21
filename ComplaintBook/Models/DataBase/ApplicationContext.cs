@@ -14,5 +14,11 @@ namespace ComplaintBook.Models.DataBase
             : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Grade>().Property(u => u.IsAccepted).HasDefaultValue(0);
+        }
+
     }
 }
