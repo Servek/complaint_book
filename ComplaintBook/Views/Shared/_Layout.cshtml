@@ -36,11 +36,15 @@
                     <li class="dropdown">
                         <a class="dropdown_toggle" href="javascript:void(0);" type="button" data-toggle="dropdown">Оставить отзыв</a>
                         <ul class="dropdown-menu">
-                            <li><a asp-area="" asp-controller="Home" asp-action="Contact">Жалоба</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Contact">Пожелание</a></li>
+                            <li><a asp-area="" asp-controller="Grades" asp-action="CreateComplaint">Отзыв о сотруднике</a></li>
+                            <li><a asp-area="" asp-controller="Grades" asp-action="CreateSuggestion">Предложение ресторану</a></li>
                         </ul>
                     </li>
                     <li><a asp-area="" asp-controller="Employees" asp-action="Index">Сотрудники</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="Grades" asp-action="Index">Управление отзывами</a></li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)

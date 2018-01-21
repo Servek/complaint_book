@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ComplaintBook.Models.DataBase;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ComplaintBook.Controllers
 {
+    [Authorize]
     public class GradesController : Controller
     {
         private readonly ApplicationContext _context;
@@ -36,6 +38,8 @@ namespace ComplaintBook.Controllers
             var grade = await _context.Grades
                 .Include(g => g.Employee)
                 .SingleOrDefaultAsync(m => m.Id == id);
+            grade.Employee.Post = await _context.Posts
+                .SingleOrDefaultAsync(m => m.Id == grade.Employee.PostId);
             if (grade == null)
             {
                 return NotFound();
@@ -45,16 +49,24 @@ namespace ComplaintBook.Controllers
         }
 
         // GET: Grades/Create
+        [AllowAnonymous]
         public IActionResult CreateComplaint()
         {
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "LastName");
+            ViewData["EmployeeId"] = new SelectList((from s in _context.Employees
+                                                     select new
+                                                     {
+                                                         Id = s.Id,
+                                                         FullEmployee = s.Post.Name + " " + s.LastName + " " + s.Name
+                                                     }),
+                "Id",
+                "FullEmployee");
             return View();
         }
 
         // GET: Grades/Create
+        [AllowAnonymous]
         public IActionResult CreateSuggestion()
         {
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "LastName");
             return View();
         }
 
@@ -63,15 +75,39 @@ namespace ComplaintBook.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SenderName,SenderEmail,IsAccepted,Message,InternalReportType,Score,EmployeeId")] Grade grade)
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateComplaint([Bind("Id,SenderName,SenderEmail,IsAccepted,Message,InternalReportType,Score,EmployeeId")] Grade grade)
         {
+            grade.ReportType = ReportType.Complaint;
             if (ModelState.IsValid)
             {
                 _context.Add(grade);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "LastName", grade.EmployeeId);
+            ViewData["EmployeeId"] = new SelectList((from s in _context.Employees
+                                                     select new
+                                                     {
+                                                         Id = s.Id,
+                                                         FullEmployee = s.Post.Name + " " + s.LastName + " " + s.Name
+                                                     }),
+                "Id",
+                "FullEmployee");
+            return View(grade);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateSuggestion([Bind("Id,SenderName,SenderEmail,IsAccepted,Message,InternalReportType,Score,EmployeeId")] Grade grade)
+        {
+            grade.ReportType = ReportType.Suggestion;
+            if (ModelState.IsValid)
+            {
+                _context.Add(grade);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
             return View(grade);
         }
 
@@ -88,7 +124,15 @@ namespace ComplaintBook.Controllers
             {
                 return NotFound();
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "LastName", grade.EmployeeId);
+            ViewData["EmployeeId"] = new SelectList((from s in _context.Employees
+                                                     select new
+                                                     {
+                                                         Id = s.Id,
+                                                         FullEmployee = s.Post.Name + " " + s.LastName + " " + s.Name
+                                                     }), 
+                                                    "Id", 
+                                                    "FullEmployee", 
+                                                    grade.EmployeeId);
             return View(grade);
         }
 
@@ -124,7 +168,15 @@ namespace ComplaintBook.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "LastName", grade.EmployeeId);
+            ViewData["EmployeeId"] = new SelectList((from s in _context.Employees
+                                                     select new
+                                                     {
+                                                         Id = s.Id,
+                                                         FullEmployee = s.Post.Name + " " + s.LastName + " " + s.Name
+                                                     }),
+                                                    "Id",
+                                                    "FullEmployee",
+                                                    grade.EmployeeId);
             return View(grade);
         }
 

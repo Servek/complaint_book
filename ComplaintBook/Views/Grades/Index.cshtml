@@ -1,35 +1,32 @@
 ﻿@model IEnumerable<ComplaintBook.Models.DataBase.Grade>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Отзывы";
 }
 
-<h2>Index</h2>
+<h2>Отзывы пользователей</h2>
 
-<p>
-    <a asp-action="CreateSuggestion">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.SenderName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SenderEmail)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsAccepted)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Message)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.InternalReportType)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Score)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SenderName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SenderEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAccepted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InternalReportType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Score)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Employee)
             </th>
@@ -49,10 +46,17 @@
                 @Html.DisplayFor(modelItem => item.IsAccepted)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Message)
+                @((item.Message.Length>50)?item.Message.Substring(0, 45)+"...":item.Message)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InternalReportType)
+                @if (item.ReportType == ReportType.Complaint)
+                {
+                    @:Отзыв
+                }
+                else
+                {
+                    @:Предложение
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Score)
@@ -61,9 +65,9 @@
                 @Html.DisplayFor(modelItem => item.Employee.LastName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>
 }

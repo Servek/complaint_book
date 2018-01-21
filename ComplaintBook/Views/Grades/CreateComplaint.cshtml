@@ -1,40 +1,33 @@
 ﻿@model ComplaintBook.Models.DataBase.Grade
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Отзыв";
 }
 
-<h2>Create</h2>
-
-<h4>Grade</h4>
+<h2>Добавить отзыв</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="CreateComplaint">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="SenderName" class="control-label"></label>
+                <label asp-for="SenderName" class="control-label">Ваше имя</label>
                 <input asp-for="SenderName" class="form-control" />
                 <span asp-validation-for="SenderName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SenderEmail" class="control-label"></label>
+                <label asp-for="SenderEmail" class="control-label">Ваш E-mail</label>
                 <input asp-for="SenderEmail" class="form-control" />
                 <span asp-validation-for="SenderEmail" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Message" class="control-label"></label>
-                <input asp-for="Message" class="form-control" />
+                <label asp-for="Message" class="control-label">Текст отзыва</label>
+                <textarea asp-for="Message" class="form-control"></textarea>
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InternalReportType" class="control-label"></label>
-                <input asp-for="InternalReportType" class="form-control" />
-                <span asp-validation-for="InternalReportType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Score" class="control-label"></label>
-                <input asp-for="Score" class="form-control" />
+                <label asp-for="Score" class="control-label">Оцените работу сотрудника по 5 балльной системе</label>
+                <input asp-for="Score" class="form-control" min="1" max="5"/>
                 <span asp-validation-for="Score" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -42,14 +35,10 @@
                 <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Отправить" class="btn btn-default" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

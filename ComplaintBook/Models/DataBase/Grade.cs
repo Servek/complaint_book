@@ -35,6 +35,7 @@ namespace ComplaintBook.Models.DataBase
             set { this.InternalReportType = (int)value; }
         }
 
+        [Range(1, 5)]
         [Display(Name = "Оценка сотрудника")]
         public int? Score { get; set; } // Оценка
 
