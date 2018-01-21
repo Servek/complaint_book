@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ComplaintBook.Models.DataBase
+﻿namespace ComplaintBook.Models.DataBase
 {
     public class User
     {
