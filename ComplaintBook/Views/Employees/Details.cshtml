@@ -1,10 +1,10 @@
 ﻿@model ComplaintBook.Models.DataBase.Employee
 
 @{
-    ViewData["Title"] = "Подробнееы";
+    ViewData["Title"] = "Подробнее";
 }
 
-<h2>Подробно о сотруднике</h2>
+<h2>Подробнее о сотруднике</h2>
 <hr />
 <div>
     <dl class="dl-horizontal">
@@ -25,6 +25,19 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Post.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AvgRating)
+        </dt>
+        <dd>
+            @if(Model.AvgRating==0)
+            {
+                @:Данного сотрудника еще не оценивали
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.AvgRating);
+            }
         </dd>
     </dl>
 </div>

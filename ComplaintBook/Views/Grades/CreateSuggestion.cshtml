@@ -3,11 +3,10 @@
 @{
     ViewData["Title"] = "Отзыв";
 }
-
-<h2>Добавить предложение</h2>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="complaint-page">
+    <h2>Добавить предложение</h2>
+    <hr />
+    <div class="row">
         <form asp-action="CreateSuggestion">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -31,7 +30,6 @@
         </form>
     </div>
 </div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -40,6 +40,12 @@ namespace ComplaintBook.Controllers
             var employee = await _context.Employees
                 .Include(e => e.Post)
                 .SingleOrDefaultAsync(m => m.Id == id);
+
+            employee.Grades = await _context.Grades
+                .Include(e => e.Employee)
+                .Where(m => m.EmployeeId == employee.Id && m.Score != null)
+                .ToListAsync();
+
             if (employee == null)
             {
                 return NotFound();

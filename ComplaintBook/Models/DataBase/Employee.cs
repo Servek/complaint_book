@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ComplaintBook.Models.DataBase
 {
@@ -23,5 +24,22 @@ namespace ComplaintBook.Models.DataBase
 
         // Связь с оценками
         public List<Grade> Grades { get; set; } // Оценки сотрудника
+
+        // Средняя оценка
+        [Display(Name = "Средняя оценка")]
+        [NotMapped]
+        public decimal AvgRating
+        {
+            get
+            {
+                decimal avg = 0;
+                foreach (Grade item in Grades)
+                {
+                    avg += item.Score.HasValue ? item.Score.Value : 0;
+                }
+                avg = (Grades.Count>0) ? avg/Grades.Count : 0;
+                return avg;
+            }
+        }
     }
 }
