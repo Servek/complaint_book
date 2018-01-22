@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace ComplaintBook.Controllers
 {
     [Authorize]
-    public class EmployeesController : Controller
+    public class EmployeesController : Controller // Контроллер сотрудников
     {
         private readonly ApplicationContext _context;
 
@@ -22,7 +22,7 @@ namespace ComplaintBook.Controllers
 
         // GET: Employees
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index() // Главная страница
         {
             var applicationContext = _context.Employees.Include(e => e.Post);
             return View(await applicationContext.ToListAsync());
@@ -30,7 +30,7 @@ namespace ComplaintBook.Controllers
 
         // GET: Employees/Details/5
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id) // Страница "Подробнее"
         {
             if (id == null)
             {
@@ -43,7 +43,7 @@ namespace ComplaintBook.Controllers
 
             employee.Grades = await _context.Grades
                 .Include(e => e.Employee)
-                .Where(m => m.EmployeeId == employee.Id && m.Score != null)
+                .Where(m => m.EmployeeId == employee.Id && m.Score != null && m.IsAccepted==true)
                 .ToListAsync();
 
             if (employee == null)
@@ -55,7 +55,7 @@ namespace ComplaintBook.Controllers
         }
 
         // GET: Employees/Create
-        public IActionResult Create()
+        public IActionResult Create() // Страница "Добавить нового сотрудника"
         {
             ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Name");
             return View();
@@ -77,7 +77,7 @@ namespace ComplaintBook.Controllers
         }
 
         // GET: Employees/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id) // Страница "Редактировать сотрудника"
         {
             if (id == null)
             {
@@ -128,7 +128,7 @@ namespace ComplaintBook.Controllers
         }
 
         // GET: Employees/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id) // Страница "Удалить сотрудника"
         {
             if (id == null)
             {

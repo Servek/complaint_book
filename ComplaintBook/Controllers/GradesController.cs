@@ -38,8 +38,11 @@ namespace ComplaintBook.Controllers
             var grade = await _context.Grades
                 .Include(g => g.Employee)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            grade.Employee.Post = await _context.Posts
-                .SingleOrDefaultAsync(m => m.Id == grade.Employee.PostId);
+
+            if (grade.Employee != null)
+                grade.Employee.Post = await _context.Posts
+                    .SingleOrDefaultAsync(m => m.Id == grade.Employee.PostId);
+
             if (grade == null)
             {
                 return NotFound();
@@ -129,9 +132,9 @@ namespace ComplaintBook.Controllers
                                                      {
                                                          Id = s.Id,
                                                          FullEmployee = s.Post.Name + " " + s.LastName + " " + s.Name
-                                                     }), 
-                                                    "Id", 
-                                                    "FullEmployee", 
+                                                     }),
+                                                    "Id",
+                                                    "FullEmployee",
                                                     grade.EmployeeId);
             return View(grade);
         }

@@ -35,21 +35,31 @@
         <dt>
             @Html.DisplayNameFor(model => model.InternalReportType)
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.InternalReportType)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Score)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Score)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Employee)
-        </dt>
-        <dd>
-            @Model.Employee.Post.Name @Html.DisplayFor(model => model.Employee.LastName) @Html.DisplayFor(model => model.Employee.Name)
-        </dd>
+        @if (Model.ReportType == ReportType.Complaint)
+        {
+            <dd>
+                Отзыв о сотруднике
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Score)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Score)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Employee)
+            </dt>
+            <dd>
+                @Model.Employee.Post.Name @Html.DisplayFor(model => model.Employee.LastName) @Html.DisplayFor(model => model.Employee.Name)
+            </dd>
+        }
+        else
+        {
+            <dd>
+                Предложение ресторану
+            </dd>
+        }
+
     </dl>
 </div>
 <div>
